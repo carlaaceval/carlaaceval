@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Carla Aceval — Escritora & Copywriter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+  /* ─────────────────────────────────────────
+     VARIABLES & RESET
+  ───────────────────────────────────────── */
+  :root{
+    --azul:#5885c6; --azul-oscuro:#3d6aad; --azul-claro:#87aad4;
+    --crema:#f9f1e5; --crema-oscura:#f0e4cf;
+    --terracota:#c2714f; --terracota-claro:#d4957a;
+    --celeste:#a8c5e0;
+    --texto:#4a3728; --texto-suave:#7a6558;
+    --nav-h:4.5rem;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'DM Sans',sans-serif;background:var(--crema);color:var(--texto);overflow-x:hidden;}
+
+  /* ─────────────────────────────────────────
+     PAGE SYSTEM — only active page visible
+  ───────────────────────────────────────── */
+  .page{display:none;}
+  .page.active{display:block;}
+
+  /* page-in transition */
+  .page.active{animation:pageIn 0.4s ease both;}
+  @keyframes pageIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+  /* ─────────────────────────────────────────
+     NAV
+  ───────────────────────────────────────── */
+  nav{
+    position:fixed;top:0;width:100%;z-index:200;
+    height:var(--nav-h);padding:0 3rem;
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--crema);border-bottom:1px solid var(--crema-oscura);
+    transition:box-shadow 0.3s;
+  }
+  nav.scrolled{box-shadow:0 2px 20px rgba(88,133,198,0.12);}
+  .nav-logo{
+    font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;
+    color:var(--texto);text-decoration:none;letter-spacing:0.02em;cursor:pointer;
+  }
+  .nav-logo span{color:var(--azul);}
+  .nav-links{display:flex;gap:0;list-style:none;align-items:center;}
+  .nav-links li a{
+    display:block;font-size:0.78rem;font-weight:400;letter-spacing:0.1em;
+    text-transform:uppercase;color:var(--texto-suave);text-decoration:none;
+    padding:0.4rem 1rem;position:relative;transition:color 0.2s;cursor:pointer;
+  }
+  .nav-links li a::after{
+    content:'';position:absolute;bottom:-2px;left:1rem;right:1rem;
+    height:1.5px;background:var(--azul);transform:scaleX(0);transition:transform 0.2s;
+  }
+  .nav-links li a:hover{color:var(--azul);}
+  .nav-links li a:hover::after,.nav-links li a.active::after{transform:scaleX(1);}
+  .nav-links li a.active{color:var(--azul);font-weight:500;}
+  .nav-cta{
+    background:var(--azul)!important;color:var(--crema)!important;
+    padding:0.5rem 1.3rem!important;border-radius:2px;letter-spacing:0.06em!important;
+  }
+  .nav-cta::after{display:none!important;}
+  .nav-cta:hover{background:var(--azul-oscuro)!important;}
+  .nav-hamburger{
+    display:none;flex-direction:column;gap:5px;
+    cursor:pointer;padding:0.3rem;background:none;border:none;
+  }
+  .nav-hamburger span{display:block;width:22px;height:1.5px;background:var(--texto);transition:all 0.3s;}
+  .nav-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+  .nav-hamburger.open span:nth-child(2){opacity:0;}
+  .nav-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+  .nav-drawer{
+    position:fixed;top:var(--nav-h);left:0;width:100%;
+    background:var(--crema);border-bottom:1px solid var(--crema-oscura);
+    padding:1.5rem 2rem 2rem;display:flex;flex-direction:column;gap:0.2rem;
+    transform:translateY(-110%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    z-index:199;box-shadow:0 8px 30px rgba(0,0,0,0.08);
+  }
+  .nav-drawer.open{transform:translateY(0);}
+  .nav-drawer a{
+    font-size:1rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--texto-suave);text-decoration:none;
+    padding:0.9rem 0;border-bottom:1px solid var(--crema-oscura);transition:color 0.2s;cursor:pointer;
+  }
+  .nav-drawer a:last-child{
+    border-bottom:none;margin-top:0.8rem;
+    background:var(--azul);color:var(--crema);
+    text-align:center;padding:0.9rem;border-radius:2px;
+  }
+  .nav-drawer a.active{color:var(--azul);font-weight:500;}
+
+  /* ─────────────────────────────────────────
+     SHARED COMPONENTS
+  ───────────────────────────────────────── */
+  .btn-primary{
+    background:var(--azul);color:var(--crema);
+    padding:0.9rem 2rem;font-size:0.85rem;font-weight:500;
+    letter-spacing:0.05em;text-decoration:none;border-radius:2px;
+    transition:background 0.2s,transform 0.2s;display:inline-block;cursor:pointer;
+  }
+  .btn-primary:hover{background:var(--azul-oscuro);transform:translateY(-1px);}
+  .btn-secondary{
+    border:1.5px solid var(--texto);color:var(--texto);
+    padding:0.9rem 2rem;font-size:0.85rem;font-weight:500;
+    letter-spacing:0.05em;text-decoration:none;border-radius:2px;
+    transition:all 0.2s;display:inline-block;cursor:pointer;
+  }
+  .btn-secondary:hover{background:var(--texto);color:var(--crema);transform:translateY(-1px);}
+  .btn-crema{
+    background:var(--crema);color:var(--azul);
+    padding:0.9rem 2rem;font-size:0.85rem;font-weight:500;
+    letter-spacing:0.05em;text-decoration:none;border-radius:2px;
+    transition:all 0.2s;display:inline-block;cursor:pointer;
+  }
+  .btn-crema:hover{background:var(--crema-oscura);transform:translateY(-1px);}
+  .btn-group{display:flex;gap:1rem;flex-wrap:wrap;}
+  .section-tag{font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--terracota);white-space:nowrap;}
+  .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:400;line-height:1.1;}
+  .section-title em{font-style:italic;color:var(--azul);}
+  .section-header{display:flex;align-items:baseline;gap:2rem;margin-bottom:3rem;}
+
+  /* page headers */
+  .page-header{
+    padding:calc(var(--nav-h)+5rem) 5rem 5rem;
+    position:relative;overflow:hidden;
+  }
+  .page-header-tag{font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--terracota);margin-bottom:1rem;display:block;}
+  .page-header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,6vw,5.5rem);font-weight:300;line-height:1.02;position:relative;z-index:1;}
+  .page-header h1 em{font-style:italic;color:var(--azul);}
+  .page-header-sub{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-style:italic;color:var(--texto-suave);margin-top:1rem;max-width:600px;line-height:1.4;position:relative;z-index:1;}
+  .ph-deco{
+    position:absolute;font-family:'Cormorant Garamond',serif;font-size:13rem;font-weight:700;
+    color:rgba(88,133,198,0.07);right:-1rem;bottom:-2rem;line-height:1;pointer-events:none;white-space:nowrap;
+  }
+
+  /* marquee */
+  .marquee-section{background:var(--terracota);padding:1.1rem 0;overflow:hidden;}
+  .marquee-track{display:flex;animation:marquee 28s linear infinite;width:max-content;}
+  .marquee-item{font-size:0.75rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--crema);padding:0 2rem;white-space:nowrap;}
+  .marquee-sep{color:rgba(249,241,229,0.4);}
+  @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+  /* fade-up */
+  .fade-up{opacity:1;transform:translateY(0);transition:opacity 0.7s ease,transform 0.7s ease;}
+  .fade-up.hidden{opacity:0;transform:translateY(28px);}
+  .fade-up.visible{opacity:1;transform:translateY(0);}
+
+  /* footer */
+  footer{
+    background:var(--texto);color:rgba(249,241,229,0.5);
+    padding:3rem 5rem;display:flex;justify-content:space-between;
+    align-items:center;flex-wrap:wrap;gap:1.5rem;
+  }
+  .footer-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:var(--crema);}
+  .footer-logo span{color:var(--azul-claro);}
+  .footer-links{display:flex;gap:2rem;flex-wrap:wrap;}
+  .footer-links a{color:rgba(249,241,229,0.5);text-decoration:none;font-size:0.82rem;transition:color 0.2s;cursor:pointer;}
+  .footer-links a:hover{color:var(--crema);}
+  .footer-copy{font-size:0.75rem;}
+
+  /* ─────────────────────────────────────────
+     HOME PAGE
+  ───────────────────────────────────────── */
+  .hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:var(--nav-h);position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;top:-10%;right:-5%;width:55%;height:110%;background:var(--crema-oscura);border-radius:0 0 0 40%/0 0 0 20%;z-index:0;}
+  .hero-left{position:relative;z-index:1;padding:6rem 4rem 4rem 5rem;display:flex;flex-direction:column;justify-content:center;}
+  .hero-tag{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--terracota);font-weight:500;margin-bottom:1.5rem;}
+  .hero-tag::before{content:'';display:block;width:2rem;height:1px;background:var(--terracota);}
+  h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,5vw,5rem);font-weight:300;line-height:1.05;margin-bottom:0.5rem;}
+  h1 em{font-style:italic;color:var(--azul);}
+  .hero-sub{font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,2vw,1.5rem);font-style:italic;color:var(--texto-suave);margin-bottom:2.5rem;line-height:1.4;}
+  .hero-body{font-size:1rem;line-height:1.75;color:var(--texto-suave);max-width:480px;margin-bottom:3rem;}
+  .hero-body strong{color:var(--texto);font-weight:500;}
+  .hero-right{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;padding:6rem 4rem 4rem 2rem;}
+  .hero-image-wrap{position:relative;width:380px;max-width:100%;}
+  .hero-image-placeholder{width:100%;aspect-ratio:3/4;background:linear-gradient(145deg,var(--azul-claro) 0%,var(--azul) 60%,var(--azul-oscuro) 100%);border-radius:4px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+  .hero-image-placeholder::after{content:'C';font-family:'Cormorant Garamond',serif;font-size:8rem;font-weight:300;color:rgba(255,255,255,0.2);position:absolute;}
+  .hero-image-badge{position:absolute;bottom:-1.5rem;left:-2rem;background:var(--crema);border:2px solid var(--azul);padding:1rem 1.5rem;border-radius:4px;box-shadow:0 8px 30px rgba(88,133,198,0.2);}
+  .badge-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--azul);line-height:1;display:block;}
+  .badge-text{font-size:0.72rem;letter-spacing:0.08em;color:var(--texto-suave);text-transform:uppercase;}
+  .hero-deco{position:absolute;top:2rem;right:1rem;background:var(--terracota);color:var(--crema);padding:0.8rem 1.2rem;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;border-radius:2px;writing-mode:vertical-rl;}
+  .preview-section{padding:6rem 5rem;background:var(--crema);}
+  .preview-inner{max-width:1100px;margin:0 auto;}
+  .preview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:var(--crema-oscura);}
+  .preview-card{background:var(--crema);padding:2.5rem 2rem;text-decoration:none;color:inherit;transition:background 0.2s;display:block;cursor:pointer;}
+  .preview-card:hover{background:var(--crema-oscura);}
+  .preview-card-num{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:300;color:var(--azul-claro);line-height:1;margin-bottom:1.2rem;}
+  .preview-card h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;margin-bottom:0.8rem;}
+  .preview-card p{font-size:0.88rem;line-height:1.65;color:var(--texto-suave);}
+  .preview-card-link{display:inline-block;margin-top:1.5rem;font-size:0.78rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--azul);}
+
+  /* ─────────────────────────────────────────
+     FIKA PAGE
+  ───────────────────────────────────────── */
+  .fika-hero-header{padding:calc(var(--nav-h)+5rem) 5rem 5rem;background:var(--azul);color:var(--crema);position:relative;overflow:hidden;}
+  .fika-hero-header::after{content:'FIKA';position:absolute;font-family:'Cormorant Garamond',serif;font-size:18rem;font-weight:700;color:rgba(255,255,255,0.05);right:-2rem;bottom:-3rem;line-height:1;pointer-events:none;}
+  .fika-hero-header .page-header-tag{color:var(--celeste);}
+  .fika-hero-header h1{color:var(--crema);}
+  .fika-hero-header h1 em{color:rgba(249,241,229,0.85);}
+  .fika-hero-header .page-header-sub{color:rgba(249,241,229,0.7);}
+  .fika-def-section{background:var(--crema-oscura);padding:4rem 5rem;}
+  .fika-def-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:4rem;align-items:center;}
+  .fika-def-word{font-family:'Cormorant Garamond',serif;font-size:7rem;font-weight:300;color:var(--azul);line-height:1;letter-spacing:-0.03em;}
+  .fika-def-text{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;line-height:1.5;color:var(--texto);}
+  .fika-def-origin{font-size:0.82rem;color:var(--texto-suave);margin-top:1rem;letter-spacing:0.04em;}
+  .fika-about{padding:6rem 5rem;background:var(--crema);}
+  .fika-about-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr;gap:6rem;align-items:start;}
+  .fika-about h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,4vw,3.5rem);font-weight:300;line-height:1.05;margin-bottom:2rem;}
+  .fika-about h2 em{font-style:italic;color:var(--azul);}
+  .fika-about p{font-size:1rem;line-height:1.8;color:var(--texto-suave);margin-bottom:1.2rem;}
+  .fika-about p strong{color:var(--texto);font-weight:500;}
+  .fika-pull{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-style:italic;color:var(--azul);border-left:3px solid var(--azul);padding-left:1.5rem;margin:2.5rem 0;line-height:1.4;}
+  .fika-tiers{display:flex;flex-direction:column;gap:1.2rem;}
+  .fika-tier{background:var(--crema-oscura);border:1px solid rgba(88,133,198,0.15);padding:1.8rem 2rem;border-radius:4px;transition:border-color 0.2s;}
+  .fika-tier:hover{border-color:var(--azul-claro);}
+  .tier-title{font-size:0.8rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--azul);margin-bottom:0.6rem;}
+  .tier-desc{font-size:0.9rem;line-height:1.65;color:var(--texto-suave);}
+  .posts-section{padding:6rem 5rem;background:var(--crema-oscura);}
+  .posts-inner{max-width:1100px;margin:0 auto;}
+  .posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+  .post-card{background:var(--crema);padding:2.5rem;border-radius:2px;transition:box-shadow 0.2s;}
+  .post-card:hover{box-shadow:0 6px 24px rgba(88,133,198,0.12);}
+  .post-tag{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--terracota);margin-bottom:0.8rem;}
+  .post-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:500;line-height:1.3;margin-bottom:0.7rem;}
+  .post-excerpt{font-size:0.88rem;line-height:1.65;color:var(--texto-suave);}
+  .fika-cta-section{background:var(--azul);padding:5rem;text-align:center;position:relative;overflow:hidden;}
+  .fika-cta-section::before{content:'☕';position:absolute;font-size:16rem;opacity:0.05;top:50%;left:50%;transform:translate(-50%,-50%);}
+  .fika-cta-section h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,4vw,4rem);font-weight:300;color:var(--crema);margin-bottom:1rem;position:relative;z-index:1;}
+  .fika-cta-section h2 em{font-style:italic;}
+  .fika-cta-section p{font-size:1rem;color:rgba(249,241,229,0.75);margin-bottom:2.5rem;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.7;position:relative;z-index:1;}
+
+  /* ─────────────────────────────────────────
+     SERVICIOS PAGE
+  ───────────────────────────────────────── */
+  .services-section{padding:7rem 5rem;background:var(--crema);}
+  .services-inner{max-width:1200px;margin:0 auto;}
+  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--crema-oscura);}
+  .service-card{background:var(--crema);padding:3rem 2.5rem;transition:background 0.25s;}
+  .service-card:hover{background:var(--crema-oscura);}
+  .service-num{font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:300;color:var(--azul-claro);line-height:1;margin-bottom:1.5rem;}
+  .service-title-h{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;margin-bottom:1rem;}
+  .service-desc{font-size:0.9rem;line-height:1.7;color:var(--texto-suave);}
+  .service-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.5rem;}
+  .service-tag-pill{font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--azul-claro);color:var(--azul);padding:0.25rem 0.6rem;border-radius:1px;}
+  .how-section{padding:6rem 5rem;background:var(--crema-oscura);}
+  .how-inner{max-width:900px;margin:0 auto;}
+  .how-steps{display:flex;flex-direction:column;gap:0;margin-top:3rem;}
+  .how-step{display:grid;grid-template-columns:4rem 1fr;gap:2rem;padding:2.5rem 0;border-bottom:1px solid rgba(88,133,198,0.15);align-items:start;}
+  .how-step:last-child{border-bottom:none;}
+  .step-num{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;color:var(--azul-claro);line-height:1;}
+  .step-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;margin-bottom:0.5rem;}
+  .step-desc{font-size:0.9rem;line-height:1.7;color:var(--texto-suave);}
+  .cta-terracota{background:var(--terracota);padding:5rem;text-align:center;}
+  .cta-terracota h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,4vw,4rem);font-weight:300;color:var(--crema);margin-bottom:1rem;}
+  .cta-terracota h2 em{font-style:italic;}
+  .cta-terracota p{font-size:1rem;color:rgba(249,241,229,0.8);margin-bottom:2.5rem;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7;}
+  .btn-crema-terra{background:var(--crema);color:var(--terracota);padding:0.9rem 2.2rem;font-size:0.85rem;font-weight:500;letter-spacing:0.05em;text-decoration:none;border-radius:2px;transition:all 0.2s;display:inline-block;cursor:pointer;}
+  .btn-crema-terra:hover{background:var(--crema-oscura);transform:translateY(-1px);}
+
+  /* ─────────────────────────────────────────
+     SOBRE MÍ PAGE
+  ───────────────────────────────────────── */
+  .about-hero-header{
+    padding:calc(var(--nav-h)+5rem) 5rem 5rem;
+    background:var(--crema-oscura);position:relative;overflow:hidden;
+    display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;
+  }
+  .about-hero-header::after{content:'Carla';position:absolute;font-family:'Cormorant Garamond',serif;font-size:16rem;font-weight:700;color:rgba(88,133,198,0.06);right:-2rem;top:0;line-height:1;pointer-events:none;}
+  .header-intro{font-size:1rem;line-height:1.8;color:var(--texto-suave);position:relative;z-index:1;align-self:center;padding-top:calc(var(--nav-h)+2rem);}
+  .header-intro strong{color:var(--texto);font-weight:500;}
+  .about-section{padding:7rem 5rem;background:var(--crema);}
+  .about-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr;gap:6rem;align-items:start;}
+  .about-body h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3vw,2.8rem);font-weight:300;line-height:1.1;margin-bottom:2rem;}
+  .about-body h2 em{font-style:italic;color:var(--terracota);}
+  .about-body p{font-size:1rem;line-height:1.85;color:var(--texto-suave);margin-bottom:1.3rem;}
+  .about-body p strong{color:var(--texto);font-weight:500;}
+  .about-pull{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-style:italic;color:var(--azul);border-left:3px solid var(--azul);padding-left:1.5rem;margin:2.5rem 0;line-height:1.4;}
+  .about-sidebar{position:sticky;top:calc(var(--nav-h)+2rem);}
+  .about-image-placeholder{width:100%;aspect-ratio:4/5;background:linear-gradient(170deg,var(--celeste) 0%,var(--azul) 100%);border-radius:4px;margin-bottom:2rem;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+  .about-image-placeholder::after{content:'♡';font-size:5rem;color:rgba(255,255,255,0.15);}
+  .about-facts{display:flex;flex-direction:column;gap:1.2rem;}
+  .about-fact{display:flex;gap:1rem;align-items:flex-start;}
+  .fact-icon{font-size:1.2rem;flex-shrink:0;margin-top:0.1rem;}
+  .fact-text{font-size:0.88rem;line-height:1.5;color:var(--texto-suave);}
+  .fact-text strong{display:block;color:var(--texto);font-weight:500;font-size:0.75rem;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.2rem;}
+  .values-section{padding:6rem 5rem;background:var(--crema-oscura);}
+  .values-inner{max-width:1100px;margin:0 auto;}
+  .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:rgba(88,133,198,0.1);}
+  .value-card{background:var(--crema-oscura);padding:2.5rem 2rem;}
+  .value-icon{font-size:1.8rem;margin-bottom:1rem;}
+  .value-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;margin-bottom:0.7rem;}
+  .value-desc{font-size:0.88rem;line-height:1.65;color:var(--texto-suave);}
+
+  /* ─────────────────────────────────────────
+     PORTFOLIO PAGE
+  ───────────────────────────────────────── */
+  .filter-section{padding:3rem 5rem 0;background:var(--crema);}
+  .filter-inner{max-width:1200px;margin:0 auto;}
+  .filter-tabs{display:flex;gap:0;border-bottom:1.5px solid var(--crema-oscura);}
+  .filter-tab{padding:0.8rem 1.5rem;font-size:0.78rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--texto-suave);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1.5px;transition:all 0.2s;}
+  .filter-tab.active{color:var(--azul);border-bottom-color:var(--azul);font-weight:500;}
+  .filter-tab:hover{color:var(--azul);}
+  .portfolio-section{padding:4rem 5rem 7rem;background:var(--crema);}
+  .portfolio-inner{max-width:1200px;margin:0 auto;}
+  .portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+  .portfolio-card{cursor:pointer;transition:transform 0.25s;}
+  .portfolio-card:hover{transform:translateY(-4px);}
+  .portfolio-card-img{width:100%;aspect-ratio:3/2;border-radius:2px;margin-bottom:1.2rem;overflow:hidden;}
+  .portfolio-card-img-inner{width:100%;height:100%;transition:transform 0.4s ease;}
+  .portfolio-card:hover .portfolio-card-img-inner{transform:scale(1.04);}
+  .pc-1{background:linear-gradient(135deg,var(--celeste),var(--azul));}
+  .pc-2{background:linear-gradient(135deg,var(--terracota),#a8520e);}
+  .pc-3{background:linear-gradient(135deg,var(--crema-oscura),var(--celeste));}
+  .pc-4{background:linear-gradient(135deg,var(--azul-claro),var(--celeste));}
+  .pc-5{background:linear-gradient(135deg,#d4b896,var(--terracota));}
+  .pc-6{background:linear-gradient(135deg,var(--azul),var(--azul-oscuro));}
+  .portfolio-card-tag{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--terracota);margin-bottom:0.4rem;}
+  .portfolio-card-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;line-height:1.3;margin-bottom:0.5rem;}
+  .portfolio-card-desc{font-size:0.85rem;line-height:1.6;color:var(--texto-suave);}
+  .portfolio-card-meta{display:flex;align-items:center;gap:0.8rem;margin-top:0.9rem;}
+  .portfolio-card-lang{font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;background:var(--crema-oscura);color:var(--texto-suave);padding:0.2rem 0.5rem;border-radius:1px;}
+  .featured-section{padding:0 5rem 6rem;background:var(--crema);}
+  .featured-inner{max-width:1200px;margin:0 auto;}
+  .featured-card{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--texto);border-radius:4px;overflow:hidden;}
+  .featured-img{background:linear-gradient(145deg,var(--azul-claro),var(--azul),var(--azul-oscuro));display:flex;align-items:center;justify-content:center;min-height:340px;position:relative;}
+  .featured-img::after{content:'FIKA';font-family:'Cormorant Garamond',serif;font-size:7rem;font-weight:300;color:rgba(255,255,255,0.15);letter-spacing:-0.02em;}
+  .featured-badge{position:absolute;top:1.5rem;left:1.5rem;background:var(--terracota);color:var(--crema);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.7rem;border-radius:1px;}
+  .featured-content{padding:3.5rem;}
+  .featured-label{font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--celeste);margin-bottom:1rem;}
+  .featured-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:400;line-height:1.2;color:var(--crema);margin-bottom:1.2rem;}
+  .featured-desc{font-size:0.9rem;line-height:1.7;color:rgba(249,241,229,0.7);margin-bottom:2rem;}
+
+  /* ─────────────────────────────────────────
+     CONTACTO PAGE
+  ───────────────────────────────────────── */
+  .contact-hero{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr;padding-top:var(--nav-h);background:var(--crema);}
+  .contact-left{padding:7rem 4rem 5rem 5rem;display:flex;flex-direction:column;justify-content:center;}
+  .contact-tag-label{font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--terracota);margin-bottom:1.5rem;display:flex;align-items:center;gap:0.5rem;}
+  .contact-tag-label::before{content:'';display:block;width:2rem;height:1px;background:var(--terracota);}
+  .contact-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,5vw,5rem);font-weight:300;line-height:1.05;margin-bottom:1.5rem;}
+  .contact-hero h1 em{font-style:italic;color:var(--azul);}
+  .contact-intro{font-size:1rem;line-height:1.8;color:var(--texto-suave);max-width:440px;margin-bottom:3rem;}
+  .contact-intro strong{color:var(--texto);font-weight:500;}
+  .contact-options{display:flex;flex-direction:column;gap:1rem;}
+  .contact-option{display:flex;align-items:center;gap:1.2rem;padding:1.5rem 2rem;background:var(--crema-oscura);border:1.5px solid transparent;border-radius:4px;text-decoration:none;color:var(--texto);transition:all 0.2s;cursor:pointer;}
+  .contact-option:hover{border-color:var(--azul);background:var(--crema);}
+  .contact-option.primary-opt{background:var(--azul);color:var(--crema);}
+  .contact-option.primary-opt:hover{background:var(--azul-oscuro);}
+  .co-icon{font-size:1.4rem;flex-shrink:0;}
+  .co-label{font-size:0.72rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;opacity:0.6;display:block;margin-bottom:0.1rem;}
+  .co-value{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:500;}
+  .co-arrow{margin-left:auto;font-size:1.2rem;opacity:0.5;transition:transform 0.2s;}
+  .contact-option:hover .co-arrow{transform:translateX(4px);}
+  .contact-right{background:var(--crema-oscura);padding:7rem 4rem 5rem;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;}
+  .contact-right::before{content:'✦';position:absolute;font-size:18rem;color:rgba(88,133,198,0.06);bottom:-3rem;right:-3rem;pointer-events:none;}
+  .faq-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:400;margin-bottom:2.5rem;}
+  .faq-title em{font-style:italic;color:var(--azul);}
+  .faq-list{display:flex;flex-direction:column;}
+  .faq-item{border-bottom:1px solid rgba(88,133,198,0.15);padding:1.5rem 0;}
+  .faq-item:first-of-type{border-top:1px solid rgba(88,133,198,0.15);}
+  .faq-q{font-weight:500;font-size:0.92rem;margin-bottom:0.6rem;}
+  .faq-a{font-size:0.88rem;line-height:1.7;color:var(--texto-suave);}
+  .goodfit-section{padding:6rem 5rem;background:var(--texto);}
+  .goodfit-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;}
+  .goodfit-col h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:400;color:var(--crema);margin-bottom:2rem;}
+  .goodfit-col h3 em{font-style:italic;}
+  .goodfit-list{display:flex;flex-direction:column;gap:0.8rem;}
+  .goodfit-item{display:flex;align-items:flex-start;gap:0.8rem;font-size:0.9rem;line-height:1.55;}
+  .goodfit-item.yes{color:rgba(249,241,229,0.8);}
+  .goodfit-item.no{color:rgba(249,241,229,0.45);}
+  .gi-icon{flex-shrink:0;margin-top:0.1rem;}
+
+  /* ─────────────────────────────────────────
+     RESPONSIVE
+  ───────────────────────────────────────── */
+  @media(max-width:900px){
+    nav{padding:0 1.5rem;}
+    .nav-links{display:none;}
+    .nav-hamburger{display:flex;}
+    /* home */
+    .hero{grid-template-columns:1fr;}
+    .hero::before{display:none;}
+    .hero-left{padding:3rem 1.5rem 2rem;}
+    .hero-right{padding:1rem 1.5rem 4rem;}
+    .hero-image-wrap{width:260px;}
+    .preview-section{padding:4rem 1.5rem;}
+    .preview-grid{grid-template-columns:1fr;}
+    /* page headers */
+    .page-header,.fika-hero-header{padding:calc(var(--nav-h)+2.5rem) 1.5rem 3rem;}
+    /* fika */
+    .fika-def-section{padding:3rem 1.5rem;}
+    .fika-def-inner{grid-template-columns:1fr;gap:1.5rem;}
+    .fika-def-word{font-size:5rem;}
+    .fika-about{padding:4rem 1.5rem;}
+    .fika-about-inner{grid-template-columns:1fr;gap:3rem;}
+    .posts-section{padding:4rem 1.5rem;}
+    .posts-grid{grid-template-columns:1fr;gap:1.5rem;}
+    .fika-cta-section{padding:4rem 1.5rem;}
+    /* servicios */
+    .services-section{padding:4rem 1.5rem;}
+    .services-grid{grid-template-columns:1fr;}
+    .how-section{padding:4rem 1.5rem;}
+    .cta-terracota{padding:4rem 1.5rem;}
+    /* sobre mi */
+    .about-hero-header{grid-template-columns:1fr;padding:calc(var(--nav-h)+2.5rem) 1.5rem 3rem;}
+    .header-intro{padding-top:0;}
+    .about-section{padding:4rem 1.5rem;}
+    .about-inner{grid-template-columns:1fr;gap:3rem;}
+    .about-sidebar{position:static;}
+    .values-section{padding:4rem 1.5rem;}
+    .values-grid{grid-template-columns:1fr;}
+    /* portfolio */
+    .filter-section{padding:2rem 1.5rem 0;}
+    .portfolio-section{padding:3rem 1.5rem 5rem;}
+    .portfolio-grid{grid-template-columns:1fr;}
+    .featured-section{padding:0 1.5rem 4rem;}
+    .featured-card{grid-template-columns:1fr;}
+    .featured-img{min-height:200px;}
+    /* contacto */
+    .contact-hero{grid-template-columns:1fr;}
+    .contact-left{padding:calc(var(--nav-h)+2.5rem) 1.5rem 2.5rem;}
+    .contact-right{padding:3rem 1.5rem;}
+    .goodfit-section{padding:4rem 1.5rem;}
+    .goodfit-inner{grid-template-columns:1fr;}
+    /* footer */
+    footer{padding:2rem 1.5rem;flex-direction:column;text-align:center;}
+    .footer-links{justify-content:center;}
+  }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     NAV (shared, always visible)
+══════════════════════════════════════════ -->
+<nav id="navbar">
+  <a class="nav-logo" data-page="home">Carla <span>Aceval</span></a>
+  <ul class="nav-links">
+    <li><a data-page="fika">FIKA Journaling</a></li>
+    <li><a data-page="servicios">Servicios</a></li>
+    <li><a data-page="sobre-mi">Sobre mí</a></li>
+    <li><a data-page="portfolio">Portfolio</a></li>
+    <li><a data-page="contacto" class="nav-cta">¿Trabajamos?</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-drawer" id="drawer">
+  <a data-page="fika">FIKA Journaling</a>
+  <a data-page="servicios">Servicios</a>
+  <a data-page="sobre-mi">Sobre mí</a>
+  <a data-page="portfolio">Portfolio</a>
+  <a data-page="contacto">¿Trabajamos?</a>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE: HOME
+══════════════════════════════════════════ -->
+<div class="page" id="page-home">
+  <section class="hero">
+    <div class="hero-left">
+      <span class="hero-tag">Escritora · Copywriter · Estratega de Contenidos</span>
+      <h1>Escribo cosas<br>que la gente <em>quiere</em><br>leer de verdad.</h1>
+      <p class="hero-sub">Y ayudo a otras marcas a hacer lo mismo.</p>
+      <p class="hero-body">
+        Hola, soy Carla 👋 Escritora, copywriter y creadora de <strong>FIKA Journaling</strong>, mi Substack sobre escritura y autoconocimiento. Escribo blogs, newsletters y copy web en español e inglés para marcas que entienden que las palabras importan.
+      </p>
+      <div class="btn-group">
+        <a class="btn-primary" data-page="fika">Vení a FIKA →</a>
+        <a class="btn-secondary" data-page="contacto">¿Trabajamos juntos?</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-image-wrap">
+        <div class="hero-image-placeholder">
+          <!-- <img src="foto.jpg" alt="Carla Aceval" style="width:100%;height:100%;object-fit:cover;"> -->
+        </div>
+        <div class="hero-image-badge">
+          <span class="badge-num">2+</span>
+          <span class="badge-text">años escribiendo online</span>
+        </div>
+        <div class="hero-deco">Buenos Aires ✦ Remote</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee-section">
+    <div class="marquee-track">
+      <span class="marquee-item">Newsletters <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Blog posts <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Substack Strategy <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Podcasts <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Copywriting Web <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Ghostwriting <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Manual de Voz <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">ES · EN · PT <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Newsletters <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Blog posts <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Substack Strategy <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Podcasts <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Copywriting Web <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Ghostwriting <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Manual de Voz <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">ES · EN · PT <span class="marquee-sep">✦</span></span>
+    </div>
+  </div>
+
+  <section class="preview-section">
+    <div class="preview-inner">
+      <div class="section-header fade-up">
+        <span class="section-tag">En este sitio</span>
+        <h2 class="section-title">Todo lo que <em>necesitás</em> saber.</h2>
+      </div>
+      <div class="preview-grid">
+        <div class="preview-card fade-up" data-page="fika">
+          <div class="preview-card-num">☕</div>
+          <h3>FIKA Journaling</h3>
+          <p>Mi Substack sobre escritura y autoconocimiento. Ensayos, prompts y reflexiones que no van a ningún otro lado.</p>
+          <span class="preview-card-link">Ir a FIKA →</span>
+        </div>
+        <div class="preview-card fade-up" data-page="servicios">
+          <div class="preview-card-num">✍</div>
+          <h3>Servicios</h3>
+          <p>Newsletters, copywriting web, manual de voz, estrategia de contenidos, blogs y guiones para podcasts.</p>
+          <span class="preview-card-link">Ver servicios →</span>
+        </div>
+        <div class="preview-card fade-up" data-page="sobre-mi">
+          <div class="preview-card-num">→</div>
+          <h3>Sobre mí</h3>
+          <p>De dónde vengo, cómo trabajo y por qué le dedico tanto tiempo a elegir las palabras correctas.</p>
+          <span class="preview-card-link">Conocerme →</span>
+        </div>
+        <div class="preview-card fade-up" data-page="portfolio">
+          <div class="preview-card-num">◎</div>
+          <h3>Portfolio</h3>
+          <p>Trabajos seleccionados: piezas que me representan y proyectos de los que estoy orgullosa.</p>
+          <span class="preview-card-link">Ver portfolio →</span>
+        </div>
+        <div class="preview-card fade-up" data-page="contacto">
+          <div class="preview-card-num">✦</div>
+          <h3>Trabajemos juntos</h3>
+          <p>Si tenés un proyecto que quiere ser escrito, este es el lugar para empezar la conversación.</p>
+          <span class="preview-card-link">Escribirme →</span>
+        </div>
+        <div class="preview-card fade-up" style="background:var(--azul);cursor:default;">
+          <div class="preview-card-num" style="color:rgba(255,255,255,0.3);">✿</div>
+          <h3 style="color:var(--crema);">ES · EN · PT</h3>
+          <p style="color:rgba(249,241,229,0.75);">Español rioplatense, inglés y portugués. Tres idiomas, la misma atención al detalle.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Carla <span>Aceval</span></div>
+    <div class="footer-links">
+      <a data-page="fika">FIKA Journaling</a>
+      <a data-page="servicios">Servicios</a>
+      <a data-page="portfolio">Portfolio</a>
+      <a href="https://www.linkedin.com/in/carla-micaela-aceval/" target="_blank">LinkedIn</a>
+    </div>
+    <p class="footer-copy">© 2025 Carla Aceval · Buenos Aires</p>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE: FIKA
+══════════════════════════════════════════ -->
+<div class="page" id="page-fika">
+  <header class="fika-hero-header">
+    <span class="page-header-tag">Mi publicación</span>
+    <h1><em>FIKA</em><br>Journaling</h1>
+    <p class="page-header-sub">Un espacio para escribir, conocerte y crear con intención.</p>
+  </header>
+
+  <section class="fika-def-section">
+    <div class="fika-def-inner fade-up">
+      <div class="fika-def-word">fika</div>
+      <div>
+        <p class="fika-def-text">"La pausa sueca para tomar un café, descansar y conectar de verdad. Con otra persona. O con una misma."</p>
+        <p class="fika-def-origin">Del sueco. Sustantivo y verbo. Ritual cultural, no solo hábito.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="fika-about">
+    <div class="fika-about-inner">
+      <div class="fade-up">
+        <h2>Escritura como <em>práctica</em>,<br>no como performance.</h2>
+        <p>FIKA nació como un espacio para hablar de escritura y journaling, pero se convirtió en algo más: una comunidad de personas que usan las palabras para conocerse mejor y crear con intención.</p>
+        <div class="fika-pull">"Cada post es una invitación a parar y preguntarte qué querés decir."</div>
+        <p>Acá no hay listicles ni contenido optimizado para el algoritmo. Hay ensayos, prompts de escritura, reflexiones sobre el proceso creativo y preguntas que no tienen respuesta fácil.</p>
+        <p>Escribo sobre <strong>journaling, creatividad, voz propia e identidad como escritora</strong>. En español, para quienes entienden que escribir es una forma de vivir más atentos.</p>
+        <div style="margin-top:2rem;">
+          <a href="https://fikajournaling.substack.com/" target="_blank" class="btn-primary">Quiero suscribirme →</a>
+        </div>
+      </div>
+      <div class="fade-up">
+        <div class="fika-tiers">
+          <div class="fika-tier">
+            <p class="tier-title">📖 Lectores gratuitos</p>
+            <p class="tier-desc">Ensayos semanales sobre escritura, journaling y creatividad. Prompts para escribir, reflexiones honestas y recursos para crear con más intención. Sin filtro, sin performance.</p>
+          </div>
+          <div class="fika-tier">
+            <p class="tier-title">☕ Suscriptores pagos</p>
+            <p class="tier-desc">Acceso a contenido exclusivo: guías profundas de journaling, worksheets descargables y los textos que más me cuesta escribir (y que por eso más vale la pena leer).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="posts-section">
+    <div class="posts-inner">
+      <div class="section-header fade-up">
+        <span class="section-tag">Algunas entregas</span>
+        <h2 class="section-title">Lo que <em>escribí</em> últimamente.</h2>
+      </div>
+      <div class="posts-grid">
+        <div class="post-card fade-up">
+          <p class="post-tag">Journaling</p>
+          <h3 class="post-title">Por qué escribir en papel sigue siendo el hábito más subversivo</h3>
+          <p class="post-excerpt">En un mundo que te pide que todo esté en la nube y sea indexable, el cuaderno es un acto político.</p>
+        </div>
+        <div class="post-card fade-up">
+          <p class="post-tag">Creatividad</p>
+          <h3 class="post-title">El bloqueo del escritor no existe (y por qué esa idea te hace daño)</h3>
+          <p class="post-excerpt">Lo que llamamos bloqueo es casi siempre otra cosa. Una vez que lo identificás, cambia todo.</p>
+        </div>
+        <div class="post-card fade-up">
+          <p class="post-tag">Voz propia</p>
+          <h3 class="post-title">Cómo saber si lo que escribís suena a vos o a todos los demás</h3>
+          <p class="post-excerpt">La voz no se inventa. Se encuentra. Y para encontrarla hay que escribir mucho, leer más y equivocarse bastante.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fika-cta-section">
+    <h2>¿Te quedaste con <em>ganas de más?</em></h2>
+    <p>Suscribite gratis y recibís el próximo ensayo directo en tu bandeja de entrada. Sin spam. Sin relleno.</p>
+    <a href="https://fikajournaling.substack.com/" target="_blank" class="btn-crema">Sumarme a FIKA →</a>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Carla <span>Aceval</span></div>
+    <div class="footer-links">
+      <a data-page="servicios">Servicios</a>
+      <a data-page="portfolio">Portfolio</a>
+      <a href="https://www.linkedin.com/in/carla-micaela-aceval/" target="_blank">LinkedIn</a>
+    </div>
+    <p class="footer-copy">© 2025 Carla Aceval · Buenos Aires</p>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE: SERVICIOS
+══════════════════════════════════════════ -->
+<div class="page" id="page-servicios">
+  <header class="page-header" style="background:var(--crema-oscura);">
+    <span class="ph-deco">Servicios</span>
+    <span class="page-header-tag">Lo que hago</span>
+    <h1>Servicios de<br><em>escritura y estrategia.</em></h1>
+    <p class="page-header-sub">Trabajo con marcas y creadores que quieren publicar algo de lo que estar orgullosos.</p>
+  </header>
+
+  <section class="services-section">
+    <div class="services-inner">
+      <div class="section-header fade-up">
+        <span class="section-tag">Servicios</span>
+        <h2 class="section-title">¿Qué <em>necesita</em><br>tu proyecto?</h2>
+      </div>
+      <div class="services-grid">
+        <div class="service-card fade-up">
+          <div class="service-num">01</div>
+          <h3 class="service-title-h">Newsletters y Substack</h3>
+          <p class="service-desc">Escribo y edito newsletters que la gente espera en su bandeja de entrada. Ghostwriting, estrategia o edición: me adapto a lo que tu publicación necesita para crecer.</p>
+          <div class="service-tags"><span class="service-tag-pill">Ghostwriting</span><span class="service-tag-pill">Estrategia</span><span class="service-tag-pill">Substack</span></div>
+        </div>
+        <div class="service-card fade-up">
+          <div class="service-num">02</div>
+          <h3 class="service-title-h">Blog posts & artículos</h3>
+          <p class="service-desc">Artículos que posicionan, educan y se leen de verdad. No listas de 5 puntos vacías. Texto que tiene algo que decir y lo dice bien, en español e inglés.</p>
+          <div class="service-tags"><span class="service-tag-pill">SEO</span><span class="service-tag-pill">Editorial</span><span class="service-tag-pill">ES/EN</span></div>
+        </div>
+        <div class="service-card fade-up">
+          <div class="service-num">03</div>
+          <h3 class="service-title-h">Copywriting web</h3>
+          <p class="service-desc">Textos para sitios y apps que convierten sin sonar a chatbot. Páginas de inicio, landings, secciones "sobre mí": cada palabra con un propósito claro.</p>
+          <div class="service-tags"><span class="service-tag-pill">Web copy</span><span class="service-tag-pill">Landings</span><span class="service-tag-pill">UX writing</span></div>
+        </div>
+        <div class="service-card fade-up">
+          <div class="service-num">04</div>
+          <h3 class="service-title-h">Manual de voz y tono</h3>
+          <p class="service-desc">Si tu marca habla distinto en cada canal, hay un problema. Construyo el documento que unifica cómo suena tu marca: su personalidad, registro, palabras propias y límites.</p>
+          <div class="service-tags"><span class="service-tag-pill">Brand voice</span><span class="service-tag-pill">Identidad</span><span class="service-tag-pill">Tono</span></div>
+        </div>
+        <div class="service-card fade-up">
+          <div class="service-num">05</div>
+          <h3 class="service-title-h">Estrategia de contenidos</h3>
+          <p class="service-desc">Antes de escribir, hay que saber qué, para quién y por qué. Armo estrategias con foco: calendario editorial, formatos, canales y la lógica detrás de cada pieza.</p>
+          <div class="service-tags"><span class="service-tag-pill">Planificación</span><span class="service-tag-pill">Canales</span><span class="service-tag-pill">Editorial</span></div>
+        </div>
+        <div class="service-card fade-up">
+          <div class="service-num">06</div>
+          <h3 class="service-title-h">Guiones para podcasts</h3>
+          <p class="service-desc">El audio merece el mismo cuidado que el texto escrito. Escribo guiones y outlines para episodios que fluyen, tienen ritmo y mantienen la atención de principio a fin.</p>
+          <div class="service-tags"><span class="service-tag-pill">Scripts</span><span class="service-tag-pill">Outlines</span><span class="service-tag-pill">Shownotes</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-section">
+    <div class="how-inner">
+      <div class="section-header fade-up">
+        <span class="section-tag">Cómo trabajo</span>
+        <h2 class="section-title">Sin vueltas ni<br><em>burocracia innecesaria.</em></h2>
+      </div>
+      <div class="how-steps">
+        <div class="how-step fade-up"><div class="step-num">01</div><div><h3 class="step-title">Nos conocemos</h3><p class="step-desc">Me contás el proyecto, el contexto y qué necesitás. Yo te hago preguntas. Si hay match, avanzamos.</p></div></div>
+        <div class="how-step fade-up"><div class="step-num">02</div><div><h3 class="step-title">Propuesta y acuerdo</h3><p class="step-desc">Te mando una propuesta clara con alcance, tiempos y precio. Sin letra chica ni sorpresas al final.</p></div></div>
+        <div class="how-step fade-up"><div class="step-num">03</div><div><h3 class="step-title">Escribo y entrego</h3><p class="step-desc">Trabajo sola, con foco, y entrego en los tiempos acordados. Incluye rondas de revisión según el proyecto.</p></div></div>
+        <div class="how-step fade-up"><div class="step-num">04</div><div><h3 class="step-title">Ajustes finales</h3><p class="step-desc">Refinamos hasta que el texto quede exactamente como necesitás. El objetivo es que estés orgulloso/a de publicarlo.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-terracota">
+    <h2>¿Tenés un proyecto<br><em>que quiere ser escrito?</em></h2>
+    <p>Contame de qué se trata. Si es algo en lo que pueda ayudarte, te respondo en menos de 48 horas.</p>
+    <a class="btn-crema-terra" data-page="contacto">Sí, quiero trabajar con vos →</a>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Carla <span>Aceval</span></div>
+    <div class="footer-links">
+      <a data-page="fika">FIKA Journaling</a>
+      <a data-page="portfolio">Portfolio</a>
+      <a href="https://www.linkedin.com/in/carla-micaela-aceval/" target="_blank">LinkedIn</a>
+    </div>
+    <p class="footer-copy">© 2025 Carla Aceval · Buenos Aires</p>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE: SOBRE MÍ
+══════════════════════════════════════════ -->
+<div class="page" id="page-sobre-mi">
+  <header class="about-hero-header">
+    <div style="position:relative;z-index:1;">
+      <span class="page-header-tag">Quién soy</span>
+      <h1>Hola,<br>soy <em>Carla.</em></h1>
+    </div>
+    <div class="header-intro">
+      <p>Escritora, copywriter y estudiante de la <strong>Licenciatura en Artes de la Escritura en la UNA</strong>. Creo que las palabras bien elegidas pueden cambiarle el día a alguien. Trabajo para que eso pase seguido.</p>
+    </div>
+  </header>
+
+  <section class="about-section">
+    <div class="about-inner">
+      <div class="about-body fade-up">
+        <h2>Escritura como <em>forma de vivir</em><br>más despacio.</h2>
+        <p>Llegué a la escritura como llegan muchos: por necesidad. Primero escribí para mí, en cuadernos que nunca iba a mostrar. Después empecé a escribir para otros, y me di cuenta de que lo que más me gustaba era ayudar a las marcas y personas a encontrar su voz.</p>
+        <div class="about-pull">"El formato largo me parece el más honesto que existe. No hay donde esconderse en 2000 palabras."</div>
+        <p>Hoy escribo para marcas en <strong>Substack, blogs y newsletters</strong> en español e inglés. También tengo mi propio espacio, <strong>FIKA Journaling</strong>, donde exploro la escritura como práctica de autoconocimiento.</p>
+        <p>Estoy cursando la <strong>Licenciatura en Artes de la Escritura en la Universidad Nacional de Artes (UNA)</strong>, porque sí, la escritura también se estudia. Y mientras tanto sigo trabajando, porque teoría y práctica se retroalimentan.</p>
+        <p>Cuando no estoy escribiendo, estoy leyendo (Substack, libros, newsletters de todo el mundo) o escuchando podcasts. Todo lo que requiera atención sostenida y te deje pensando después. <strong>Soy de Buenos Aires</strong>, trabajo de forma remota y elijo los proyectos con los que me meto.</p>
+        <div class="btn-group">
+          <a href="https://www.linkedin.com/in/carla-micaela-aceval/" target="_blank" class="btn-secondary">Mi LinkedIn →</a>
+          <a class="btn-primary" data-page="contacto">¿Arrancamos?</a>
+        </div>
+      </div>
+      <div class="about-sidebar fade-up">
+        <div class="about-image-placeholder">
+          <!-- <img src="foto-about.jpg" alt="Carla Aceval" style="width:100%;height:100%;object-fit:cover;"> -->
+        </div>
+        <div class="about-facts">
+          <div class="about-fact"><span class="fact-icon">📍</span><div class="fact-text"><strong>Ubicación</strong>Buenos Aires, Argentina · Remote-first</div></div>
+          <div class="about-fact"><span class="fact-icon">🎓</span><div class="fact-text"><strong>Formación</strong>Lic. Artes de la Escritura, UNA (en curso)</div></div>
+          <div class="about-fact"><span class="fact-icon">✍️</span><div class="fact-text"><strong>Especialidad</strong>Newsletters, copywriting web, blog posts, podcasts</div></div>
+          <div class="about-fact"><span class="fact-icon">🌐</span><div class="fact-text"><strong>Idiomas</strong>Español (nativo) · Inglés (avanzado) · Português (avanzado) · Alemán (básico)</div></div>
+          <div class="about-fact"><span class="fact-icon">☕</span><div class="fact-text"><strong>Dato random</strong>Le puse FIKA a mi Substack antes de saber que era tan popular. La pausa siempre tuvo sentido para mí.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="values-section">
+    <div class="values-inner">
+      <div class="section-header fade-up">
+        <span class="section-tag">Cómo pienso</span>
+        <h2 class="section-title">Lo que guía <em>mi trabajo.</em></h2>
+      </div>
+      <div class="values-grid">
+        <div class="value-card fade-up"><div class="value-icon">🔍</div><h3 class="value-title">Las palabras tienen peso</h3><p class="value-desc">Cada palabra elegida es una que desplaza a otra. No escribo por llenar espacio. Escribo para que algo pase cuando se lee.</p></div>
+        <div class="value-card fade-up"><div class="value-icon">🎯</div><h3 class="value-title">El fondo antes que la forma</h3><p class="value-desc">Un texto bien diseñado pero vacío no sirve. Prefiero empezar por qué se quiere decir y después ver cómo decirlo.</p></div>
+        <div class="value-card fade-up"><div class="value-icon">🌱</div><h3 class="value-title">La voz es el diferencial</h3><p class="value-desc">En un mundo con más texto que nunca, lo único que no se puede copiar es la voz propia. Ayudo a encontrarla y a sostenerla.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Carla <span>Aceval</span></div>
+    <div class="footer-links">
+      <a data-page="fika">FIKA Journaling</a>
+      <a data-page="servicios">Servicios</a>
+      <a href="https://www.linkedin.com/in/carla-micaela-aceval/" target="_blank">LinkedIn</a>
+    </div>
+    <p class="footer-copy">© 2025 Carla Aceval · Buenos Aires</p>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE: PORTFOLIO
+══════════════════════════════════════════ -->
+<div class="page" id="page-portfolio">
+  <header class="page-header" style="background:var(--crema-oscura);">
+    <span class="ph-deco">Portfolio</span>
+    <span class="page-header-tag">Trabajos seleccionados</span>
+    <h1>Cosas que <em>escribí</em><br>y que me representan.</h1>
+    <p class="page-header-sub">Una selección de piezas en español, inglés y português. Distintos formatos, una misma atención al detalle.</p>
+  </header>
+
+  <section class="filter-section">
+    <div class="filter-inner">
+      <div class="filter-tabs">
+        <span class="filter-tab active">Todo</span>
+        <span class="filter-tab">Newsletters</span>
+        <span class="filter-tab">Blog & artículos</span>
+        <span class="filter-tab">Copywriting web</span>
+        <span class="filter-tab">Podcasts</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="portfolio-section">
+    <div class="portfolio-inner">
+      <div class="portfolio-grid">
+        <div class="portfolio-card fade-up">
+          <div class="portfolio-card-img"><div class="portfolio-card-img-inner pc-1"></div></div>
+          <p class="portfolio-card-tag">Newsletter · FIKA</p>
+          <h3 class="portfolio-card-title">Por qué escribir en papel sigue siendo el hábito más subversivo</h3>
+          <p class="portfolio-card-desc">Ensayo sobre escritura manual, atención y resistencia en la era del texto digitalizado.</p>
+          <div class="portfolio-card-meta"><span class="portfolio-card-lang">ES</span><span class="portfolio-card-lang">Newsletter</span></div>
+        </div>
+        <div class="portfolio-card fade-up">
+          <div class="portfolio-card-img"><div class="portfolio-card-img-inner pc-2"></div></div>
+          <p class="portfolio-card-tag">Blog post · Marca</p>
+          <h3 class="portfolio-card-title">How to build a content strategy that doesn't burn you out</h3>
+          <p class="portfolio-card-desc">Guía para equipos de marketing sobre sostenibilidad en producción de contenidos.</p>
+          <div class="portfolio-card-meta"><span class="portfolio-card-lang">EN</span><span class="portfolio-card-lang">Blog</span></div>
+        </div>
+        <div class="portfolio-card fade-up">
+          <div class="portfolio-card-img"><div class="portfolio-card-img-inner pc-3"></div></div>
+          <p class="portfolio-card-tag">Copywriting web · Landing</p>
+          <h3 class="portfolio-card-title">Copy de lanzamiento para plataforma de bienestar</h3>
+          <p class="portfolio-card-desc">Hero, propuesta de valor, beneficios y CTA para una landing de producto digital.</p>
+          <div class="portfolio-card-meta"><span class="portfolio-card-lang">ES</span><span class="portfolio-card-lang">Web copy</span></div>
+        </div>
+        <div class="portfolio-card fade-up">
+          <div class="portfolio-card-img"><div class="portfolio-card-img-inner pc-4"></div></div>
+          <p class="portfolio-card-tag">Guion · Podcast</p>
+          <h3 class="portfolio-card-title">Serie de episodios sobre creatividad y proceso</h3>
+          <p class="portfolio-card-desc">6 guiones completos para podcast sobre creatividad aplicada. Tono conversacional, estructura editorial.</p>
+          <div class="portfolio-card-meta"><span class="portfolio-card-lang">ES</span><span class="portfolio-card-lang">Podcast</span></div>
+        </div>
+        <div class="portfolio-card fade-up">
+          <div class="portfolio-card-img"><div class="portfolio-card-img-inner pc-5"></div></div>
+          <p class="portfolio-card-tag">Newsletter · Ghostwriting</p>
+          <h3 class="portfolio-card-title">Newsletter mensal para marca de lifestyle em português</h3>
+          <p class="portfolio-card-desc">Ghostwriting de newsletter quinzenal para marca brasileira de lifestyle e bem-estar.</p>
+          <div class="portfolio-card-meta"><span class="portfolio-card-lang">PT</span><span class="portfolio-card-lang">Newsletter</span></div>
+        </div>
+        <div class="portfolio-card fade-up">
+          <div class="portfolio-card-img"><div class="portfolio-card-img-inner pc-6"></div></div>
+          <p class="portfolio-card-tag">Manual de voz · Marca</p>
+          <h3 class="portfolio-card-title">Brand voice guide para startup de tecnología educativa</h3>
+          <p class="portfolio-card-desc">Definición de personalidad, tono, registro y vocabulario propio para equipo de 8 personas.</p>
+          <div class="portfolio-card-meta"><span class="portfolio-card-lang">ES</span><span class="portfolio-card-lang">Brand voice</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured-section">
+    <div class="featured-inner">
+      <div class="featured-card fade-up">
+        <div class="featured-img"><span class="featured-badge">Destacado</span></div>
+        <div class="featured-content">
+          <p class="featured-label">FIKA Journaling</p>
+          <h3 class="featured-title">Mi Substack: el proyecto de escritura más personal que tengo</h3>
+          <p class="featured-desc">FIKA es donde escribo sin filtro. Ensayos sobre escritura, journaling y creatividad que no van a ningún otro lado. Acá podés leer cómo pienso, cómo escribo y qué me importa.</p>
+          <a href="https://fikajournaling.substack.com/" target="_blank" class="btn-crema">Leer FIKA →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Carla <span>Aceval</span></div>
+    <div class="footer-links">
+      <a data-page="fika">FIKA Journaling</a>
+      <a data-page="servicios">Servicios</a>
+      <a href="https://www.linkedin.com/in/carla-micaela-aceval/" target="_blank">LinkedIn</a>
+    </div>
+    <p class="footer-copy">© 2025 Carla Aceval · Buenos Aires</p>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE: CONTACTO
+══════════════════════════════════════════ -->
+<div class="page" id="page-contacto">
+  <section class="contact-hero">
+    <div class="contact-left fade-up">
+      <span class="contact-tag-label">Contacto</span>
+      <h1>¿Tenés un proyecto<br>que <em>quiere ser escrito?</em></h1>
+      <p class="contact-intro">
+        Contame de qué se trata. Si es algo en lo que pueda ayudarte, te respondo en <strong>menos de 48 horas</strong>. Sin formularios raros ni burocracia innecesaria.
+      </p>
+      <div class="contact-options">
+        <a href="mailto:hola@carlaaceval.com" class="contact-option primary-opt">
+          <span class="co-icon">✉</span>
+          <div><span class="co-label">Email</span><span class="co-value">hola@carlaaceval.com</span></div>
+          <span class="co-arrow">→</span>
+        </a>
+        <a href="https://fikajournaling.substack.com/" target="_blank" class="contact-option">
+          <span class="co-icon">☕</span>
+          <div><span class="co-label">Substack</span><span class="co-value">FIKA Journaling</span></div>
+          <span class="co-arrow">→</span>
+        </a>
+        <a href="https://www.linkedin.com/in/carla-micaela-aceval/" target="_blank" class="contact-option">
+          <span class="co-icon">💼</span>
+          <div><span class="co-label">LinkedIn</span><span class="co-value">Carla Micaela Aceval</span></div>
+          <span class="co-arrow">→</span>
+        </a>
+        <a href="https://carlaaceval.my.canva.site/" target="_blank" class="contact-option">
+          <span class="co-icon">◎</span>
+          <div><span class="co-label">Portfolio completo</span><span class="co-value">carlaaceval.my.canva.site</span></div>
+          <span class="co-arrow">→</span>
+        </a>
+      </div>
+    </div>
+    <div class="contact-right fade-up">
+      <h2 class="faq-title">Preguntas <em>frecuentes.</em></h2>
+      <div class="faq-list">
+        <div class="faq-item"><p class="faq-q">¿En qué idiomas trabajás?</p><p class="faq-a">Español (rioplatense), inglés y português. En los tres escribo con el mismo nivel de cuidado y atención al tono.</p></div>
+        <div class="faq-item"><p class="faq-q">¿Trabajás con marcas fuera de Argentina?</p><p class="faq-a">Sí. Trabajo de forma 100% remota y con marcas de cualquier país. El único requisito es que la comunicación sea clara.</p></div>
+        <div class="faq-item"><p class="faq-q">¿Cuánto tiempo tardás en entregar?</p><p class="faq-a">Depende del proyecto. Lo definimos en la propuesta inicial para que no haya sorpresas de ningún lado.</p></div>
+        <div class="faq-item"><p class="faq-q">¿Hacés revisiones?</p><p class="faq-a">Sí. Todos mis proyectos incluyen rondas de revisión. El objetivo es que el texto quede exactamente como necesitás.</p></div>
+        <div class="faq-item"><p class="faq-q">¿Puedo contratarte para un solo texto?</p><p class="faq-a">Sí, acepto proyectos puntuales. Si después querés seguir trabajando juntos, mejor todavía.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="goodfit-section">
+    <div class="goodfit-inner">
+      <div class="goodfit-col fade-up">
+        <h3>Trabajamos bien juntos <em>si…</em></h3>
+        <div class="goodfit-list">
+          <div class="goodfit-item yes"><span class="gi-icon">✓</span><span>Valorás las palabras y entendés que la escritura lleva tiempo</span></div>
+          <div class="goodfit-item yes"><span class="gi-icon">✓</span><span>Querés publicar algo de lo que estar orgulloso/a, no solo llenar un calendario</span></div>
+          <div class="goodfit-item yes"><span class="gi-icon">✓</span><span>Estás abierto/a a que sugiera mejoras o alternativas</span></div>
+          <div class="goodfit-item yes"><span class="gi-icon">✓</span><span>Tenés contexto del proyecto y podés dedicar tiempo a un briefing inicial</span></div>
+        </div>
+      </div>
+      <div class="goodfit-col fade-up">
+        <h3>Puede no ser el <em>match ideal si…</em></h3>
+        <div class="goodfit-list">
+          <div class="goodfit-item no"><span class="gi-icon">✗</span><span>Necesitás texto para ayer sin ningún tipo de briefing</span></div>
+          <div class="goodfit-item no"><span class="gi-icon">✗</span><span>Buscás el precio más bajo del mercado por encima de la calidad</span></div>
+          <div class="goodfit-item no"><span class="gi-icon">✗</span><span>Querés volumen de contenido genérico sin foco ni estrategia</span></div>
+          <div class="goodfit-item no"><span class="gi-icon">✗</span><span>No hay espacio para devoluciones ni proceso colaborativo</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Carla <span>Aceval</span></div>
+    <div class="footer-links">
+      <a data-page="fika">FIKA Journaling</a>
+      <a data-page="servicios">Servicios</a>
+      <a data-page="portfolio">Portfolio</a>
+      <a href="https://www.linkedin.com/in/carla-micaela-aceval/" target="_blank">LinkedIn</a>
+    </div>
+    <p class="footer-copy">© 2025 Carla Aceval · Buenos Aires</p>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════
+     ROUTER
+══════════════════════════════════════════ -->
+<script>
+(function(){
+  const PAGES = ['home','fika','servicios','sobre-mi','portfolio','contacto'];
+  const PAGE_TITLES = {
+    home: 'Carla Aceval — Escritora & Copywriter',
+    fika: 'FIKA Journaling — Carla Aceval',
+    servicios: 'Servicios — Carla Aceval',
+    'sobre-mi': 'Sobre mí — Carla Aceval',
+    portfolio: 'Portfolio — Carla Aceval',
+    contacto: 'Trabajemos juntos — Carla Aceval'
+  };
+
+  function getPageFromHash(){
+    const h = location.hash.replace('#','');
+    return PAGES.includes(h) ? h : 'home';
+  }
+
+  function showPage(pageId, pushState){
+    // hide all pages
+    document.querySelectorAll('.page').forEach(p=>{
+      p.classList.remove('active');
+    });
+
+    // show target
+    const target = document.getElementById('page-'+pageId);
+    if(target) target.classList.add('active');
+
+    // update nav active state
+    document.querySelectorAll('[data-page]').forEach(el=>{
+      el.classList.toggle('active', el.dataset.page === pageId);
+    });
+
+    // update title
+    document.title = PAGE_TITLES[pageId] || PAGE_TITLES.home;
+
+    // update hash (clean URL)
+    if(pushState){
+      const newHash = pageId === 'home' ? '' : '#'+pageId;
+      history.pushState({page:pageId}, '', newHash || location.pathname);
+    }
+
+    // scroll to top
+    window.scrollTo({top:0, behavior:'instant'});
+
+    // close mobile drawer
+    hamburger.classList.remove('open');
+    drawer.classList.remove('open');
+
+    // re-run fade-up observer for new page
+    initFadeUps();
+  }
+
+  // delegate all data-page clicks
+  document.addEventListener('click', function(e){
+    const el = e.target.closest('[data-page]');
+    if(el && el.dataset.page){
+      e.preventDefault();
+      showPage(el.dataset.page, true);
+    }
+  });
+
+  // browser back/forward
+  window.addEventListener('popstate', function(e){
+    showPage(e.state?.page || getPageFromHash(), false);
+  });
+
+  // nav scroll shadow
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll',()=>{
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // hamburger
+  const hamburger = document.getElementById('hamburger');
+  const drawer = document.getElementById('drawer');
+  hamburger.addEventListener('click',()=>{
+    hamburger.classList.toggle('open');
+    drawer.classList.toggle('open');
+  });
+
+  // filter tabs (portfolio)
+  document.querySelectorAll('.filter-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  // fade-up
+  let observer;
+  function initFadeUps(){
+    if(observer) observer.disconnect();
+    const activePage = document.querySelector('.page.active');
+    if(!activePage) return;
+    const els = activePage.querySelectorAll('.fade-up');
+    els.forEach(el=>{ el.classList.add('hidden'); el.classList.remove('visible'); });
+    observer = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.remove('hidden');
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    },{threshold:0.08});
+    // small delay so page paint happens first
+    requestAnimationFrame(()=> els.forEach(el=>observer.observe(el)));
+  }
+
+  // initial load
+  const startPage = getPageFromHash();
+  showPage(startPage, false);
+  if(startPage !== 'home'){
+    history.replaceState({page:startPage}, '', '#'+startPage);
+  }
+})();
+</script>
+</body>
+</html>
